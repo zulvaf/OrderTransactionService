@@ -1,4 +1,4 @@
-var connection = require('../../dbconnection');
+var connection = require('../dbconnection');
 var mysql = require('mysql');
 
 var Product = {

@@ -1,4 +1,4 @@
-var connection = require('../../dbconnection');
+var connection = require('../dbconnection');
 
 var Coupon = {
 	getQuantityDate: function(id, callback){

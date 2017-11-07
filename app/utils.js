@@ -34,6 +34,34 @@ var Utils = {
 		return result;
 	},
 
+	_makeOrderByIdJson : function(data){
+		var order = {};
+		var arr_product = [];
+		if(data.length != 0) {
+			order['id'] = data[0].id_order;
+			order['id_coupon'] = data[0].id_coupon;
+			order['id_user'] = data[0].id_user;
+			order['status'] = data[0].status;
+			order['product'] = arr_product;
+			order['total_price'] = data[0].total_price;
+			order['product'] = arr_product;
+
+			for(var i=0; i<data.length; i++){		
+				var product = {};
+				
+				product['id_product'] = data[i].id_product;
+				product['name'] = data[i].name;
+				product['total'] = data[i].total;
+				product['price'] = data[i].price;
+
+				arr_product = order['product'];
+				arr_product.push(product)			
+			}
+		}
+		
+		return order;
+	},
+
 	_calculatePrice : function(data){
 		var sum = 0;
 		for(var i=0; i<data.length; i++){
