@@ -1,8 +1,8 @@
 var connection = require('../dbconnection');
 
 var Coupon = {
-	getQuantityDate: function(id, callback){
-		var sql = "SELECT quantity, date_started, date_ended FROM coupon WHERE id=$1"
+	getCouponById: function(id, callback){
+		var sql = "SELECT * FROM coupon WHERE id=$1"
 		return connection.query(sql, [id], callback)
 	},
 

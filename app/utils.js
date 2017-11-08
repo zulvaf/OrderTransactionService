@@ -62,10 +62,13 @@ var Utils = {
 		return order;
 	},
 
-	_calculatePrice : function(data){
+	_calculatePrice : function(data, coupon){
 		var sum = 0;
 		for(var i=0; i<data.length; i++){
 			sum += data[i].total * data[i].price;
+		}
+		if(coupon != 0){
+			return sum - (sum * coupon);
 		}
 		return sum;
 	},
