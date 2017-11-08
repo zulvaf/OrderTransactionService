@@ -46,6 +46,6 @@ Token is used for other method:
 ```json
 {
     "success": false, 
-	"message": 'Failed to authenticate token'
+	"message": "Failed to authenticate token"
 }
 ```
