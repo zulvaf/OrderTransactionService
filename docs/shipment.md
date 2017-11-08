@@ -2,10 +2,15 @@
 -----
 
 ### Submit Shipment 
+
 **URL** : `/api/shipment`
+
 **Method** : `POST`
+
 **Role** : Admin
+
 **Params**: id_order, shipment_status, operator, token
+
 **Data examples:**
 ```json
 {
@@ -26,10 +31,16 @@
 ```
 
 ### Get All Shipments/Own Shipments 
+
 **URL** : `/api/payment`
+
 **Method** : `GET`
+
 **Role** : Admin/Customer
+
+
 **Params**: -
+
 **Success Response Example:**
 - Code: 200
 - Content:
@@ -53,10 +64,15 @@
 ```
 
 ### Get Shipment By Id
+
 **URL** : `/api/shipment/:id`
+
 **Method** : `GET`
+
 **Role** : Admin/Customer
+
 **Params**: id
+
 **Success Response Example:**
 - Code: 200
 - Content:
@@ -78,10 +94,15 @@
 ```
 
 ### Get Shipments By OrderId
+
 **URL** : `/api/order?id_order=id`
+
 **Method** : `GET`
+
 **Role** : Admin
+
 **Params**: id_order
+
 **Success Response Example:**
 - Code: 200
 - Content:

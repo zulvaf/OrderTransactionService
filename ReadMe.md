@@ -26,13 +26,13 @@ https://z-order-transaction-api.herokuapp.com/
 - [Change Order Status](docs/order.md) : `PUT /api/order/:id`
 - [See All Payments](docs/payment.md) : `GET /api/payment`
 - [See Payment By Id](docs/payment.md) : `GET /api/payment/:id`
-- [See Payment By OrderId](docs/payment.md) : `GET /api/payment?id_order=id`
+- [See Payments By OrderId](docs/payment.md) : `GET /api/payment?id_order=id`
 - [See All Shipments](docs/shipment.md) : `GET /api/shipment`
 - [See Shipment By Id](docs/shipment.md) : `GET /api/shipment/:id`
-- [See Shipment By OderId](docs/shipment.md) : `GET /api/shipment?id_order=id`
+- [See Shipments By OderId](docs/shipment.md) : `GET /api/shipment?id_order=id`
 - [Submit Shipment](docs/shipment.md) : `POST /api/shipment`
 
-## Assumption
+## Assumptions
 - The API provides login API to get token for authentication, but doesn't handle other account management services such as register, logout, and  user manipulation.
 - Submit Order API validates required fields (customer name, phone, email, address) so the fields are not empty. Any validation other than that is handled by admin manually. When admin changes order's status, it is already assumed that the customer data and payment is valid
 - Customer only can see their own order, while admin can see all orders. Customer can see their own shipment or specific shipment by using ShipmentId. Customer can not see payment data at all.

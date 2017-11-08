@@ -3,9 +3,13 @@
 
 ### Submit Payment 
 **URL** : `/api/payment`
+
 **Method** : `POST`
+
 **Role** : Customer
+
 **Params**: id_order, total_payment, payment_date, token
+
 **Data examples:**
 ```json
 {
@@ -26,10 +30,15 @@
 ```
 
 ### Get All Payments 
+
 **URL** : `/api/payment`
+
 **Method** : `GET`
+
 **Role** : Admin
+
 **Params**: -
+
 **Success Response Example:**
 - Code: 200
 - Content:
@@ -53,10 +62,15 @@
 ```
 
 ### Get Payment By Id
+
 **URL** : `/api/payment/:id`
+
 **Method** : `GET`
+
 **Role** : Admin
+
 **Params**: id
+
 **Success Response Example:**
 - Code: 200
 - Content:
@@ -78,10 +92,15 @@
 ```
 
 ### Get Payments By OrderId
+
 **URL** : `/api/order?id_order=id`
+
 **Method** : `GET`
+
 **Role** : Admin
+
 **Params**: id_order
+
 **Success Response Example:**
 - Code: 200
 - Content:

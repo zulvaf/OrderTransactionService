@@ -3,9 +3,13 @@
 
 ### Submit Order 
 **URL** : `/api/order`
+
 **Method** : `POST`
+
 **Role** : Customer
+
 **Params**: id_user, id_coupon (not required), products, name, phone_number, email, address, token
+
 **Data examples:**
 ```json
 {
@@ -19,6 +23,7 @@
 	"token": "your_token"
 }
 ```
+
 **Success Response Example:**
 - Code: 200
 - Content:
@@ -28,6 +33,7 @@
     "message": "Order Submitted"
 }
 ```
+
 **Error Response Example:**
 - Code: 202
 - Content:
@@ -48,10 +54,15 @@
 ```
 
 ### Get All Orders/Own Orders 
+
 **URL** : `/api/order`
+
 **Method** : `GET`
+
 **Role** : Admin/Customer
+
 **Params**: -
+
 **Success Response Example:**
 - Code: 200
 - Content:
@@ -87,10 +98,15 @@
 Total harga yang ditamplikan sudah mencakup potongan diskon jika terdapat parameter `id_coupon`
 
 ### Get Order By Id
+
 **URL** : `/api/order/:id`
+
 **Method** : `GET`
+
 **Role** : Admin
+
 **Params**: id
+
 **Success Response Example:**
 - Code: 200
 - Content:
@@ -123,13 +139,17 @@ Total harga yang ditamplikan sudah mencakup potongan diskon jika terdapat parame
 
 ### Change Order Status
 **URL** : `/api/order/:id`
+
 **Method** : `PUT`
+
 **Role** : Admin
+
 **Params**: id, status, token
+
 **Data examples:**
 ```json
 {
-    "status" : "Cancelled"
+    "status" : "Cancelled",
     "token" : "my_token"
 	
 }
