@@ -1,9 +1,10 @@
 var connection = require('../dbconnection');
+var Utils = require('../utils');
 
 var OrderProduct = {
-	insertOrderProduct: function(req, callback){
-		var sql = "INSERT INTO `order_product` (id_order, id_product, total) VALUES ?"
-		return connection.query(sql, [req], callback)
+	insertOrderProduct: function(id, req, callback){
+		var sql = Utils._generateOrderStatement(id, req);		
+		return connection.query(sql, callback)
 	},
 
 };	

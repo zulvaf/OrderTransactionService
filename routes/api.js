@@ -13,8 +13,8 @@ var Shipment = require('../app/model/shipment');
 router.route('/order')
 .get(function(req, res, next) {
 	Order.getAllOrder(function(err,result){
-		if (err) return res.status(400).send(err);
-    	return res.send({"status": 200, "error": null, "data": Utils._makeOrderJson(result)});
+		if (err) return res.status(400).send(err.toString());
+    	return res.send({"status": 200, "error": null, "data": Utils._makeOrderJson(result.rows)});
 	})
 })
 .post(function(req,res,next){
@@ -25,13 +25,13 @@ router.route('/order')
 		Coupon.getQuantityDate(req.body.id_coupon, function(err,result){		
 			//Check if coupon valid
 			var now = moment();
-			if(result[0].quantity > 0 && moment(result[0].date_started).isBefore(now) && moment(result[0].date_ended).isAfter(now)){
+			if(result.rows[0].quantity > 0 && moment(result.rows[0].date_started).isBefore(now) && moment(result.rows[0].date_ended).isAfter(now)){
 				
 				//Check product quantity
 				Product.getAllProduct(function(err,result){
 					var products = req.body.products;
 					for(var i=0; i<products.length; i++){
-						var pr = result.find(function(res){
+						var pr = result.rows.find(function(res){
 							return res['id'] == products[i].id_product;
 						});
 						if(products[i].total > pr.quantity){
@@ -46,21 +46,19 @@ router.route('/order')
 					req.body.status = "Submitted";
 					req.body.total_price = Utils._calculatePrice(products);
 					Order.insertOrder(req.body, function(err,result){
-						if (err) return res.status(400).send(err);
+						if (err) return res.status(400).send(err.toString());
 						
 						//Insert Order-Product
-						var arr_op = Utils._generateOrderProduct(result.insertId, products);
-						OrderProduct.insertOrderProduct(arr_op, function(err,result){
-							if (err) return res.status(400).send(err);
+						OrderProduct.insertOrderProduct(result.rows[0].id, products, function(err,result){
+							if (err) return res.status(400).send(err.toString());
 
 							//Decrease coupon
 							Coupon.decreaseCoupon(req.body.id_coupon, function(err,result){
-								if (err) return res.status(400).send(err);
+								if (err) return res.status(400).send(err.toString());
 
 								//Decrease product
-								var arr_prod = Utils._generateUpdateProducts(products);
-								Product.decreaseProduct(arr_prod, function(err, result){
-									if (err) return res.status(400).send(err);
+								Product.decreaseProduct(products, function(err, result){
+									if (err) return res.status(400).send(err.toString());
 									return res.send({"status": 200, "error": null, "response": "Order Submitted"});
 								})
 							})
@@ -78,7 +76,7 @@ router.route('/order')
 		Product.getAllProduct(function(err,result) {
 			var products = req.body.products;
 			for(var i=0; i<products.length; i++){
-				var pr = result.find(function(res){
+				var pr = result.rows.find(function(res){
 					return res['id'] == products[i].id_product;
 				});
 				if(products[i].total > pr.quantity){
@@ -93,17 +91,15 @@ router.route('/order')
 			req.body.status = "Submitted";
 			req.body.total_price = Utils._calculatePrice(products);
 			Order.insertOrder(req.body, function(err,result){
-				if (err) return res.status(400).send(err);
+				if (err) return res.status(400).send(ererr.toString());
 				
 				//Insert Order-Product
-				var arr_op = Utils._generateOrderProduct(result.insertId, products);
-				OrderProduct.insertOrderProduct(arr_op, function(err,result){
-					if (err) return res.status(400).send(err);
+				OrderProduct.insertOrderProduct(result.rows[0].id, products, function(err,result){
+					if (err) return res.status(400).send(err.toString());
 
 					//Decrease product
-					var arr_prod = Utils._generateUpdateProducts(products);
-					Product.decreaseProduct(arr_prod, function(err, result){
-						if (err) return res.status(400).send(err);
+					Product.decreaseProduct(products, function(err, result){
+						if (err) return res.status(400).send(err.toString());
 						return res.send({"status": 200, "error": null, "response": "Order sucessfully submitted"});
 					})
 					
@@ -119,13 +115,13 @@ router.route('/order')
 router.route('/order/:id')
 .get(function(req, res, next) {
 	Order.getOrderById(req.params.id, function(err,result){
-		if (err) return res.status(400).send(err);
-    	return res.send({"status": 200, "error": null, "data": Utils._makeOrderByIdJson(result)});
+		if (err) return res.status(400).send(err.toString());
+    	return res.send({"status": 200, "error": null, "data": Utils._makeOrderByIdJson(result.rows)});
 	})
 })
 .put(function(req, res, next) {
 	Order.updateStatusOrder(req.params.id, req.body.status, function(err,result){
-		if (err) return res.status(400).send(err);
+		if (err) return res.status(400).send(err.toString());
     	return res.send({"status": 200, "error": null, "response": "Status sucessfully updated"});
 	})
 });
@@ -135,25 +131,25 @@ router.route('/payment')
 .get(function(req, res, next) {
 	if(req.query.id_order === undefined){
 		Payment.getAllPayment(function(err,result){
-			if (err) return res.status(400).send(err);
-			return res.send({"status": 200, "error": null, "data": result});
+			if (err) return res.status(400).send(err.toString());
+			return res.send({"status": 200, "error": null, "data": result.rows});
 		})
 	} else {
 		Payment.getPaymentByOrderId(req.query.id_order, function(err,result){
-			if (err) return res.status(400).send(err);
-    		return res.send({"status": 200, "error": null, "data": result});
+			if (err) return res.status(400).send(err.toString());
+    		return res.send({"status": 200, "error": null, "data": result.rows});
 		})
 	}	
 })
 .post(function(req, res, next) {
 	Payment.insertPayment(req.body, function(err,result){
-		if (err) return res.status(400).send(err);
+		if (err) return res.status(400).send(err.toString());
 
 		//Update status order
 		var status = "Paid"
 		var id_order = req.body.id_order;
 		Order.updateStatusOrder(id_order, status, function(err,result){
-			if (err) return res.status(400).send(err);
+			if (err) return res.status(400).send(err.toString());
 	    	return res.send({"status": 200, "error": null, "response": "Payment sucessfully submitted"});
 		})
 	})
@@ -162,8 +158,8 @@ router.route('/payment')
 router.route('/payment/:id')
 .get(function(req, res, next) {
 	Payment.getPaymentById(req.params.id, function(err,result){
-		if (err) return res.status(400).send(err);
-		return res.send({"status": 200, "error": null, "data": result});
+		if (err) return res.status(400).send(err.toString());
+		return res.send({"status": 200, "error": null, "data": result.rows});
 	});
 });
 
@@ -172,25 +168,25 @@ router.route('/shipment')
 .get(function(req, res, next) {
 	if(req.query.id_order === undefined){
 		Shipment.getAllShipment(function(err,result){
-			if (err) return res.status(400).send(err);
-			return res.send({"status": 200, "error": null, "data": result});
+			if (err) return res.status(400).send(err.toString());
+			return res.send({"status": 200, "error": null, "data": result.rows});
 		})
 	} else {
 		Shipment.getShipmentByOrderId(req.query.id_order, function(err,result){
-			if (err) return res.status(400).send(err);
-    		return res.send({"status": 200, "error": null, "data": result});
+			if (err) return res.status(400).send(err.toString());
+    		return res.send({"status": 200, "error": null, "data": result.rows});
 		})
 	}	
 })
 .post(function(req, res, next) {
 	Shipment.insertShipment(req.body, function(err,result){
-		if (err) return res.status(400).send(err);
+		if (err) return res.status(400).send(err.toString());
 
 		//Update status order
 		var status = "Shipped"
 		var id_order = req.body.id_order;
 		Order.updateStatusOrder(id_order, status, function(err,result){
-			if (err) return res.status(400).send(err);
+			if (err) return res.status(400).send(err.toString());
 	    	return res.send({"status": 200, "error": null, "response": "Shipment sucessfully submitted"});
 		})
 	})
@@ -199,8 +195,8 @@ router.route('/shipment')
 router.route('/shipment/:id')
 .get(function(req, res, next) {
 	Shipment.getShipmentById(req.params.id, function(err,result){
-		if (err) return res.status(400).send(err);
-		return res.send({"status": 200, "error": null, "data": result});
+		if (err) return res.status(400).send(err.toString());
+		return res.send({"status": 200, "error": null, "data": result.rows});
 	});
 });
 

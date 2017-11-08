@@ -1,11 +1,12 @@
-var mysql = require('mysql');
+require('dotenv').config()
+const { Pool, Client } = require('pg');
 
-var connection = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'root',
-  password : 'password',
-  database : 'order_transaction',
-  multipleStatements: true
+const pool = new Pool({
+  user: process.env.PGUSER,
+  host: process.env.PGHOST,
+  database: process.env.PGDATABASE,
+  password: process.env.PGPASSWORD,
+  port: process.env.PGPORT,
 });
 
-module.exports = connection;
+module.exports = pool;

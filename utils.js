@@ -74,8 +74,8 @@ var Utils = {
 		var params = [];
 		var chunks = [];
 		for(var i = 0; i < data.length; i++) {
-		    var row = data[i];
-		    var valueClause = [];
+		    var row = rows[i];
+		    var valuesClause = [];
 		    params.push(id);
 		    valueClause.push('$' + params.length);
 		    params.push(row.id_product);
@@ -88,19 +88,6 @@ var Utils = {
 	    	text: 'INSERT INTO order_product (id_order, id_product, total) VALUES ' + chunks.join(', '),
 	    	values: params
 	  	}
-	},
-
-	_generateProductStatement: function(data) {
-		var result = [];
-		for(var i=0; i<data.length; i++){
-			var values = [];
-			values.push(data[i].id_product);
-			values.push(data[i].quantity - data[i].total);
-			result.push('(' + values.join(', ') + ')')
-		}
-		return {
-			text: 'UPDATE product as p SET quantity = s.quantity FROM (VALUES' + result.join(',') + ')as s (id, quantity) WHERE p.id = s.id'
-		}
 	},
 
 	_generateUpdateProducts: function(data){
