@@ -34,8 +34,9 @@ https://z-order-transaction-api.herokuapp.com/
 
 ## Assumptions
 - The API provides login API to get token for authentication, but doesn't handle other account management services such as register, logout, and  user manipulation.
-- Submit Order API validates required fields (customer name, phone, email, address) so the fields are not empty. Any validation other than that is handled by admin manually. When admin changes order's status, it is already assumed that the customer data and payment is valid
+- Submit Order API validates required fields (customer name, phone, email, address) so the fields will not empty. Any validation other than that is handled by admin manually. When admin changes order's status, it is already assumed that the customer data and payment is valid
 - Customer only can see their own order, while admin can see all orders. Customer can see their own shipment or specific shipment by using ShipmentId. Customer can not see payment data at all.
+- Payment and order can only be submitted by customer while shipment can only be submitted by admin. Admin can change order status.
 
 
 ## Data Seed
