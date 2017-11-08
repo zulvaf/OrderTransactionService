@@ -125,12 +125,6 @@ router.route('/shipment')
 
 router.route('/shipment/:id')
 .get(function(req, res, next) {
-	if(req.decoded.admin != 1){
-		return res.status(403).send({
-			'success' 	: false,
-			'message'	: 'You dont have permission to access'
-		});
-	}
 	ShipmentController.getShipmentById(req, res, next);
 });
 

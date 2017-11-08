@@ -58,19 +58,19 @@ app.use(function(err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-    // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+  // render the error page
+  // res.status(err.status || 500);
+  // res.render('error');
 
   // render the error page
   if(err.status){
-    res.status(404).send({
-      'status': 'error',
+    return res.status(404).send({
+      'success': false,
       'message': 'Route not found'
     })
   } else {
-    res.status(500).send({
-      'status': 'error',
+    return res.status(500).send({
+      'success': false,
       'message': 'Internal server error'
     })
   }
